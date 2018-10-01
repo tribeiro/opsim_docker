@@ -1,0 +1,4 @@
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+source scl_source enable devtoolset-6; source /home/opsim/stack/lsstsw/bin/setup.sh;
