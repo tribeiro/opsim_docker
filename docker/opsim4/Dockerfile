@@ -1,4 +1,4 @@
-FROM oboberg/opsim4_fbs_py3:stackpy3-180830
+FROM oboberg/opsim4_fbs_py3:stackpy3-20180928
 LABEL maintainer Owen Boberg <boberg37@gmail.com>
 
 USER root
@@ -52,7 +52,7 @@ RUN source scl_source enable devtoolset-6; source /home/opsim/stack/loadLSST.bas
     eups declare scipy system -r none -m none && \
     eups declare ephem system -r none -m none && \
     eups declare matplotlib system -r none -m none && \
-    eups declare salpytools git -r ./repos/salpytools -c && \
+    eups declare ts_salpytools git -r ./repos/salpytools -c && \
     eups declare scheduler_config git -r ./repos/scheduler_config -c && \
     eups declare sims_cloudModel git -r ./repos/sims_cloudModel -c && \
     eups declare sims_downtimeModel git -r ./repos/sims_downtimeModel -c && \
