@@ -93,7 +93,7 @@ setup scheduler_config git
 cd /home/opsim
 # salpytools
 cd /home/opsim/repos/salpytools
-setup salpytools git
+setup ts_salpytools git
 cd /home/opsim
 # ts_xml
 cd /home/opsim/repos/ts_xml

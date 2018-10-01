@@ -198,7 +198,7 @@ cd /home/opsim/repos/salpytools
 git pull
 get_branch
 git checkout $run_branch
-setup salpytools git
+setup ts_salpytools git
 # ts_xml
 cd /home/opsim/repos/ts_xml
 git pull

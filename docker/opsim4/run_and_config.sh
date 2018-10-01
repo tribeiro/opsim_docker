@@ -182,7 +182,7 @@ git checkout $run_branch
 cd /home/opsim/repos/salpytools
 get_branch
 git checkout $run_branch
-setup salpytools git
+setup ts_salpytools git
 # ts_xml
 cd /home/opsim/repos/ts_xml
 get_branch

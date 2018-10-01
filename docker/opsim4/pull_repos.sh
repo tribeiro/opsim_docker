@@ -104,7 +104,7 @@ cd /home/opsim/repos/salpytools && \
 git pull && \
 get_branch
 git checkout master && \
-setup salpytools git && \
+setup ts_salpytools git && \
 # ts_astrosky_model
 cd /home/opsim/repos/ts_astrosky_model
 git pull

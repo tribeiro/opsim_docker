@@ -165,7 +165,7 @@ RUN source scl_source enable devtoolset-6; source /home/opsim/stack/loadLSST.bas
     # salpytools
     cd /home/opsim/repos/salpytools && \
     git checkout master && \
-    setup salpytools git && \
+    setup ts_salpytools git && \
     # ts_xml
     cd /home/opsim/repos/ts_xml && \
     git checkout scheduler/develop && \
