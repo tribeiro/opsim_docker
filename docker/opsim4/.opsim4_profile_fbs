@@ -1,0 +1,4 @@
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+source scl_source enable devtoolset-6; source /home/opsim/stack/loadLSST.bash; setup sims_ocs git; setup ts_scheduler git; setup sims_featureScheduler git; setup ts_astrosky_model git
