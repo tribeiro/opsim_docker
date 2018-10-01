@@ -49,6 +49,9 @@ ENV OSPL_URI=file://${OPENSPLICE_LOC}/etc/config/ospl.xml \
     PYTHONPATH=${SCHED_TOPIC_LIB}:${PYTHONPATH}
 
 ### TODO: Need lsstsw build of opsim.
+### This code will have to be updated once the lsstsw build branch is set for sims_ocs
+RUN source scl_source enable devtoolset-6; source /home/opsim/stack/lsstsw/bin/setup.sh; rebuild -r u/lynnej/cleanup_eups sims_ocs
+
 
 ADD --chown=opsim:opsim ./startup_fbs.sh /home/opsim/startup_fbs.sh
 RUN chmod +x /home/opsim/startup_fbs.sh
