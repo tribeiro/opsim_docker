@@ -33,6 +33,7 @@ RUN mkdir repos && \
     git clone https://github.com/lsst/throughputs.git && \
     git clone https://github.com/lsst/sims_skybrightness_data.git && \
     git clone https://github.com/lsst-ts/ts_opensplice.git && \
+    git clone https://github.com/lsst-ts/ts_sal.git && \
     cd ../
 
 RUN mkdir /home/opsim/sky_brightness_data
@@ -48,11 +49,22 @@ ENV OSPL_URI=file://${OPENSPLICE_LOC}/etc/config/ospl.xml \
     LD_LIBRARY_PATH=${OPENSPLICE_LOC}/lib:${SCHED_TOPIC_LIB}:${LD_LIBRARY_PATH} \
     PYTHONPATH=${SCHED_TOPIC_LIB}:${PYTHONPATH}
 
+
+ADD --chown=opsim:opsim ./dds_libs/SALPY_scheduler.so /home/opsim/dds/lib/SALPY_scheduler.so
+
+ADD --chown=opsim:opsim  ./dds_libs/libsacpp_scheduler_types.so /home/opsim/dds/lib/libsacpp_scheduler_types.so
+
+RUN chmod +x /home/opsim/dds/lib/libsacpp_scheduler_types.so
+
+RUN chmod +x /home/opsim/dds/lib/SALPY_scheduler.so
+
 RUN source scl_source enable devtoolset-6; source /home/opsim/stack/loadLSST.bash; \
     eups declare scipy system -r none -m none && \
     eups declare ephem system -r none -m none && \
     eups declare matplotlib system -r none -m none && \
     eups declare ts_salpytools git -r ./repos/salpytools -c && \
+    eups declare ts_sal git -r ./repos/ts_sal -c && \
+    eups declare ts_xml git -r ./repos/ts_xml -c && \
     eups declare scheduler_config git -r ./repos/scheduler_config -c && \
     eups declare sims_cloudModel git -r ./repos/sims_cloudModel -c && \
     eups declare sims_downtimeModel git -r ./repos/sims_downtimeModel -c && \
@@ -73,7 +85,9 @@ RUN source scl_source enable devtoolset-6; source /home/opsim/stack/loadLSST.bas
     eups declare ts_scheduler git -r ./repos/ts_scheduler -c && \
     eups declare ts_schedulerConfig git -r ./repos/ts_schedulerConfig  -c && \
     eups declare ts_statemachine git -r ./repos/ts_statemachine  -c && \
+    eups declare ts_opensplice git -r ./repos/ts_opensplice  -c && \
     setup sims_utils -t sims && \
+    export SUBSYSTEMS="scheduler" && \
     # sims_seeingModel
     cd /home/opsim/repos/sims_seeingModel && \
     git checkout master && \
@@ -134,15 +148,24 @@ RUN source scl_source enable devtoolset-6; source /home/opsim/stack/loadLSST.bas
     git checkout master && \
     setup sims_ocs git && \
     scons && \
+    # ts_opensplice
+    cd /home/opsim/repos/ts_opensplice && \
+    git checkout master && \
+    setup ts_opensplice git && \
+    # ts_xml
+    cd /home/opsim/repos/ts_xml && \
+    git checkout develop && \
+    setup ts_xml git && \
+    # ts_sal
+    cd /home/opsim/repos/ts_sal && \
+    git checkout u/lynnej/add_eups_sal && \
+    export SUBSYSTEMS="scheduler" && \
+    setup ts_sal git && \
+    scons && \
     # ts_statemachine
     cd /home/opsim/repos/ts_statemachine && \
     git checkout develop && \
     setup ts_statemachine git && \
-    scons && \
-    # ts_scheduler
-    cd /home/opsim/repos/ts_scheduler && \
-    git checkout master && \
-    setup ts_scheduler git && \
     scons && \
     # ts_observatory_model
     cd /home/opsim/repos/ts_observatory_model && \
@@ -152,11 +175,11 @@ RUN source scl_source enable devtoolset-6; source /home/opsim/stack/loadLSST.bas
     # ts_schedulerConfig
     cd /home/opsim/repos/ts_schedulerConfig && \
     setup ts_schedulerConfig git && \
+    scons && \
     # ts_proposalScheduler
     cd /home/opsim/repos/ts_proposalScheduler && \
     git checkout master && \
     setup ts_proposalScheduler git && \
-    # scons && \
     # scheduler_config
     cd /home/opsim/repos/scheduler_config && \
     git checkout master && \
@@ -166,11 +189,12 @@ RUN source scl_source enable devtoolset-6; source /home/opsim/stack/loadLSST.bas
     cd /home/opsim/repos/salpytools && \
     git checkout master && \
     setup ts_salpytools git && \
-    # ts_xml
-    cd /home/opsim/repos/ts_xml && \
-    git checkout scheduler/develop && \
-    eups declare ts_xml git -r . -c && \
-    setup ts_xml git && \
+    scons && \
+    # ts_scheduler
+    cd /home/opsim/repos/ts_scheduler && \
+    git checkout u/lynnej/cleanup_eups && \
+    setup ts_scheduler git && \
+    scons && \
     cd /home/opsim
 
 ADD --chown=opsim:opsim ./startup_fbs.sh /home/opsim/startup_fbs.sh
@@ -186,13 +210,13 @@ RUN chmod +x /home/opsim/pull_and_config.sh
 ADD --chown=opsim:opsim ./run_and_config.sh /home/opsim/run_and_config.sh
 RUN chmod +x /home/opsim/run_and_config.sh
 
-ADD --chown=opsim:opsim ./dds_libs/SALPY_scheduler.so /home/opsim/dds/lib/SALPY_scheduler.so
+#ADD --chown=opsim:opsim ./dds_libs/SALPY_scheduler.so /home/opsim/dds/lib/SALPY_scheduler.so
 
-ADD --chown=opsim:opsim  ./dds_libs/libsacpp_scheduler_types.so /home/opsim/dds/lib/libsacpp_scheduler_types.so
+#ADD --chown=opsim:opsim  ./dds_libs/libsacpp_scheduler_types.so /home/opsim/dds/lib/libsacpp_scheduler_types.so
 
-RUN chmod +x /home/opsim/dds/lib/libsacpp_scheduler_types.so
+#RUN chmod +x /home/opsim/dds/lib/libsacpp_scheduler_types.so
 
-RUN chmod +x /home/opsim/dds/lib/SALPY_scheduler.so
+#RUN chmod +x /home/opsim/dds/lib/SALPY_scheduler.so
 
 RUN mkdir /home/opsim/default_configs
 ADD --chown=opsim:opsim ./default_configs/dome.py /home/opsim/default_configs/dome.py
