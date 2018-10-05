@@ -210,14 +210,6 @@ RUN chmod +x /home/opsim/pull_and_config.sh
 ADD --chown=opsim:opsim ./run_and_config.sh /home/opsim/run_and_config.sh
 RUN chmod +x /home/opsim/run_and_config.sh
 
-#ADD --chown=opsim:opsim ./dds_libs/SALPY_scheduler.so /home/opsim/dds/lib/SALPY_scheduler.so
-
-#ADD --chown=opsim:opsim  ./dds_libs/libsacpp_scheduler_types.so /home/opsim/dds/lib/libsacpp_scheduler_types.so
-
-#RUN chmod +x /home/opsim/dds/lib/libsacpp_scheduler_types.so
-
-#RUN chmod +x /home/opsim/dds/lib/SALPY_scheduler.so
-
 RUN mkdir /home/opsim/default_configs
 ADD --chown=opsim:opsim ./default_configs/dome.py /home/opsim/default_configs/dome.py
 ADD --chown=opsim:opsim ./default_configs/rotator.py /home/opsim/default_configs/rotator.py
