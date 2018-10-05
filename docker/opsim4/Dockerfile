@@ -201,6 +201,9 @@ ADD --chown=opsim:opsim ./startup_fbs.sh /home/opsim/startup_fbs.sh
 RUN chmod +x /home/opsim/startup_fbs.sh
 ADD --chown=opsim:opsim ./.opsim4_profile_fbs /home/opsim/.opsim4_profile_fbs
 
+ADD --chown=opsim:opsim ./quickstart_fbs.sh /home/opsim/quickstart_fbs.sh
+RUN chmod +x /home/opsim/quickstart_fbs.sh
+
 ADD --chown=opsim:opsim ./pull_repos.sh /home/opsim/pull_repos.sh
 RUN chmod +x /home/opsim/pull_repos.sh
 
